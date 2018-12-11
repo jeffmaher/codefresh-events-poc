@@ -36,29 +36,28 @@ steps:
           isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"' 
           isPROpenOrSync: '"${{CF_PULL_REQUEST_ACTION}}" == "opened" || "${{CF_PULL_REQUEST_ACTION}}" == "synchronize" || "${{CF_PULL_REQUEST_ACTION}}" == "reopened"'
   
-  # RemoveReviewEnv:
-  #   title: Remove review environment
-  #   image: ${{BuildDockerImage}}
-  #   commands:
-  #     - echo "[JM_OUT] terraform destroy"
-  #   when:
-  #     condition:
-  #       all:
-  #         isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
-  #         isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"'
-  #         isPRClosed: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
+  RemoveReviewEnv:
+    title: Remove review environment
+    image: ${{BuildDockerImage}}
+    commands:
+      - echo "[JM_OUT] terraform destroy"
+    when:
+      condition:
+        all:
+          isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
+          isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"' 
+          isPROpenOrSync: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
-
-  # PushDockerImage:
-  #   title: Push Docker image
-  #   type: push
-  #   candidate: ${{BuildDockerImage}}
-  #   image_name: jeffmaher/codefresh-events-poc
-  #   tag: ${{CF_RELEASE_TAG}}
-  #   registry: ecr-temp_cammis
-  #   when:
-  #     condition:
-  #       all:
-  #         isReleaseEvent: '!Boolean("${{CF_RELEASE_TAG}}")'
-  #         hasSemVer: 'match( "${{CF_RELEASE_TAG}}", "^\d+\.\d+\.\d+$", false )'
+  PushDockerImage:
+    title: Push Docker image
+    type: push
+    candidate: ${{BuildDockerImage}}
+    image_name: jeffmaher/codefresh-events-poc
+    tag: ${{CF_RELEASE_TAG}}
+    registry: ecr-temp_cammis
+    when:
+      condition:
+        all:
+          isReleaseEvent: '!Boolean("${{CF_RELEASE_TAG}}")'
+          releaseTagHasSemVerFormat: 'match( "${{CF_RELEASE_TAG}}", "^\d+\.\d+\.\d+$", false )'
 
