@@ -21,8 +21,8 @@ steps:
     when:
       condition:
         all:
-          isPR: 'Boolean(${{CF_PULL_REQUEST_ACTION}})'
-          isPRTargetMaster: '${{CF_PULL_REQUEST_TARGET}} == "master"'    
+          isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
+          isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"'    
 
   # DeployReviewEnv:
   #   title: Deploy review environment
