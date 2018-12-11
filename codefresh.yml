@@ -24,17 +24,17 @@ steps:
           isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
           isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"'    
 
-  # DeployReviewEnv:
-  #   title: Deploy review environment
-  #   image: ${{BuildDockerImage}}
-  #   commands:
-  #     - echo "[JM_OUT] terraform apply -auto-approve"
-  #   when:
-  #     condition:
-  #       all:
-  #         isPR: 'Boolean(${{CF_PULL_REQUEST_ACTION}})'
-  #         isPRTargetMaster: '${{CF_PULL_REQUEST_TARGET}} == "master"'
-  #         isPROpenOrSync: '${{CF_PULL_REQUEST_ACTION}} == "opened" || ${{CF_PULL_REQUEST_ACTION}} == "synchronize" || ${{CF_PULL_REQUEST_ACTION}} == "reopened"'
+  DeployReviewEnv:
+    title: Deploy review environment
+    image: ${{BuildDockerImage}}
+    commands:
+      - echo "[JM_OUT] terraform apply -auto-approve"
+    when:
+      condition:
+        all:
+          isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
+          isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"' 
+          isPROpenOrSync: '"${{CF_PULL_REQUEST_ACTION}}" == "opened" || "${{CF_PULL_REQUEST_ACTION}}" == "synchronize" || "${{CF_PULL_REQUEST_ACTION}}" == "reopened"'
   
   # RemoveReviewEnv:
   #   title: Remove review environment
@@ -44,9 +44,9 @@ steps:
   #   when:
   #     condition:
   #       all:
-  #         isPR: 'Boolean(${{CF_PULL_REQUEST_ACTION}})'
-  #         isPRTargetMaster: '${{CF_PULL_REQUEST_TARGET}} == "master"'
-  #         isPRClosed: '${{CF_PULL_REQUEST_ACTION}} == "closed"'
+  #         isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
+  #         isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"'
+  #         isPRClosed: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
 
   # PushDockerImage:
@@ -59,6 +59,6 @@ steps:
   #   when:
   #     condition:
   #       all:
-  #         isReleaseEvent: '!Boolean(${{CF_RELEASE_TAG}})'
-  #         hasSemVer: 'match( ${{CF_RELEASE_TAG}}, "^\d+\.\d+\.\d+$", false )'
+  #         isReleaseEvent: '!Boolean("${{CF_RELEASE_TAG}}")'
+  #         hasSemVer: 'match( "${{CF_RELEASE_TAG}}", "^\d+\.\d+\.\d+$", false )'
 
