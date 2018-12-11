@@ -4,6 +4,8 @@ steps:
     title: Building Docker Image
     type: build
     image_name: jeffmaher/codefresheventspoc
-    working_directory: ./
-    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
-    dockerfile: Dockerfile
+  SeeEnv:
+    title: See env vars
+    image: ${{BuildingDockerImage}}
+    commands:
+      - env
