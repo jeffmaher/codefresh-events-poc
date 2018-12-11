@@ -33,7 +33,7 @@ steps:
         all:
           isPR: Boolean(${{CF_PULL_REQUEST_ACTION}})
           isPRTargetMaster: ${{CF_PULL_REQUEST_TARGET}} == "master"
-          isPROpenOrSync: ${{CF_PULL_REQUEST_ACTION}} == "opened" || ${{CF_PULL_REQUEST_ACTION}} == "synchronize"
+          isPROpenOrSync: ${{CF_PULL_REQUEST_ACTION}} == "opened" || ${{CF_PULL_REQUEST_ACTION}} == "synchronize" || ${{CF_PULL_REQUEST_ACTION}} == "reopened"
   
   RemoveReviewEnv:
     title: Remove review environment
@@ -58,6 +58,6 @@ steps:
     when:
       condition:
         all:
-          isReleaseEvent: !Boolean(${{CF_RELEASE_TAG}}
+          isReleaseEvent: ${{CF_RELEASE_TAG}} != Null
           hasSemVer: match( ${{CF_RELEASE_TAG}}, "^\d+\.\d+\.\d+$", false )
 
