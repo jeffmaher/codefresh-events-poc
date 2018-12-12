@@ -4,7 +4,7 @@ steps:
     title: Building Docker Image
     type: build
     image_name: jeffmaher/codefresh-events-poc
-    
+
   PushDockerImage:
     title: Push Docker image
     type: push
@@ -12,7 +12,3 @@ steps:
     image_name: jeffmaher/codefresh-events-poc
     tag: ${{CF_BRANCH_VERSION_NORMALIZED}}
     registry: ecr-temp_cammis
-    when:
-      condition:
-        all:
-          releaseTagHasSemVerFormat: 'match( "${{CF_BRANCH_TAG_NORMALIZED}}", "^[0-9]+\.[0-9]+\.[0-9]+$", false )'
