@@ -21,7 +21,7 @@ steps:
     when:
       condition:
         all:
-          isPR: '"${{CF_PULL_REQUEST_ACTION}}" != Null'
+          isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
           isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"'    
 
   DeployReviewEnv:
@@ -32,7 +32,7 @@ steps:
     when:
       condition:
         all:
-          isPR: '"${{CF_PULL_REQUEST_ACTION}}" != Null'
+          isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
           isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"' 
           isPROpenOrSync: '"${{CF_PULL_REQUEST_ACTION}}" == "opened" || "${{CF_PULL_REQUEST_ACTION}}" == "synchronize" || "${{CF_PULL_REQUEST_ACTION}}" == "reopened"'
   
@@ -44,7 +44,7 @@ steps:
     when:
       condition:
         all:
-          isPR: '"${{CF_PULL_REQUEST_ACTION}}" != Null'
+          isPR: 'Boolean("${{CF_PULL_REQUEST_ACTION}}")'
           isPRTargetMaster: '"${{CF_PULL_REQUEST_TARGET}}" == "master"' 
           isPROpenOrSync: '"${{CF_PULL_REQUEST_ACTION}}" == "closed"'
 
@@ -58,6 +58,6 @@ steps:
     when:
       condition:
         all:
-          isNotPR: '"${{CF_PULL_REQUEST_ACTION}}" == Null'
+          isNotPR: '!Boolean("${{CF_PULL_REQUEST_ACTION}}")'
           releaseTagHasSemVerFormat: 'match( "${{CF_BRANCH_TAG_NORMALIZED}}", "^\d+\.\d+\.\d+$", false )'
 
