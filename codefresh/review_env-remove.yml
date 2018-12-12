@@ -1,0 +1,26 @@
+version: '1.0'
+steps:
+  BuildDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: jeffmaher/codefresh-events-poc
+
+  SeeEnv:
+    title: See env vars
+    image: ${{BuildDockerImage}}
+    commands:
+      - env
+      - ls
+      - pwd
+
+  InitTerraform:
+    title: Initialize Terraform
+    image: ${{BuildDockerImage}}
+    commands:
+      - echo "[JM_OUT] terraform init"
+  
+  RemoveReviewEnv:
+    title: Remove review environment
+    image: ${{BuildDockerImage}}
+    commands:
+      - echo "[JM_OUT] terraform destroy"
