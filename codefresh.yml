@@ -58,6 +58,5 @@ steps:
     when:
       condition:
         all:
-          isNotPR: '!Boolean("${{CF_PULL_REQUEST_ACTION}}")'
+          isNotPR: '${{CF_PULL_REQUEST_ACTION}} == null'
           releaseTagHasSemVerFormat: 'match( "${{CF_BRANCH_TAG_NORMALIZED}}", "^\d+\.\d+\.\d+$", false )'
-
